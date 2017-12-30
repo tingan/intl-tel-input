@@ -677,7 +677,23 @@ Plugin.prototype = {
         return false;
       }
     });
-
+    this.countryList.on("keyup" + this.ns, "#input-search-country", function(e) {
+      var searchText = $.trim($(this).val());
+      var $allList = $('ul.country-list > li.country');
+      $allList.show();
+      $allList.each(function(index, value) {
+        if ($(value).attr('id') != 'li-search-country') {
+          if ($(value).find('span.country-name').text().toUpperCase().indexOf(searchText.toUpperCase()) != -1) {
+            $(value).show();
+          }
+          else {
+            $(value).hide();
+          }
+        }
+      });
+      return false;
+    });
+    
     // click off to close
     // (except when this initial opening click is bubbling up)
     // we cannot just stopPropagation as it may be needed to close another instance
