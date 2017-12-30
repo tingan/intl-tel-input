@@ -1,7 +1,7 @@
 # International Telephone Input [![Build Status](https://travis-ci.org/jackocnr/intl-tel-input.svg)](https://travis-ci.org/jackocnr/intl-tel-input)
 A jQuery plugin for entering and validating international telephone numbers. It adds a flag dropdown to any input, detects the user's country, displays a relevant placeholder and provides formatting/validation methods.
 
-<img src="https://raw.github.com/jackocnr/intl-tel-input/master/screenshot.png" width="424px" height="246px">
+<img src="https://github.com/tingan/intl-tel-input/blob/master/screenshot.png" width="424px" height="246px">
 
 If you like it, please consider making a donation, which you can do from [the demo page](http://intl-tel-input.com).
 
