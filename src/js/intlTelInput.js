@@ -670,7 +670,12 @@ Plugin.prototype = {
 
     // listen for country selection
     this.countryList.on("click" + this.ns, ".country", function(e) {
-      that._selectListItem($(this));
+      if ($(e.target).attr('id') != 'input-search-country') {
+        that._selectListItem($(this));
+      }
+      else {
+        return false;
+      }
     });
 
     // click off to close
