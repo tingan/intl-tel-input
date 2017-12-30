@@ -693,7 +693,7 @@ Plugin.prototype = {
       });
       return false;
     });
-    
+
     // click off to close
     // (except when this initial opening click is bubbling up)
     // we cannot just stopPropagation as it may be needed to close another instance
@@ -712,31 +712,36 @@ Plugin.prototype = {
     var query = "",
       queryTimer = null;
     $(document).on("keydown" + this.ns, function(e) {
-      // prevent down key from scrolling the whole page,
-      // and enter key from submitting a form etc
-      e.preventDefault();
+      if ($(e.target).attr('id') != 'input-search-country') {
+        // prevent down key from scrolling the whole page,
+        // and enter key from submitting a form etc
+        e.preventDefault();
 
-      if (e.which == keys.UP || e.which == keys.DOWN) {
-        // up and down to navigate
-        that._handleUpDownKey(e.which);
-      } else if (e.which == keys.ENTER) {
-        // enter to select
-        that._handleEnterKey();
-      } else if (e.which == keys.ESC) {
-        // esc to close
-        that._closeDropdown();
-      } else if ((e.which >= keys.A && e.which <= keys.Z) || e.which == keys.SPACE) {
-        // upper case letters (note: keyup/keydown only return upper case letters)
-        // jump to countries that start with the query string
-        if (queryTimer) {
-          clearTimeout(queryTimer);
+        if (e.which == keys.UP || e.which == keys.DOWN) {
+          // up and down to navigate
+          that._handleUpDownKey(e.which);
+        } else if (e.which == keys.ENTER) {
+          // enter to select
+          that._handleEnterKey();
+        } else if (e.which == keys.ESC) {
+          // esc to close
+          that._closeDropdown();
+        } else if ((e.which >= keys.A && e.which <= keys.Z) || e.which == keys.SPACE) {
+          // upper case letters (note: keyup/keydown only return upper case letters)
+          // jump to countries that start with the query string
+          if (queryTimer) {
+            clearTimeout(queryTimer);
+          }
+          query += String.fromCharCode(e.which);
+          that._searchForCountry(query);
+          // if the timer hits 1 second, reset the query
+          queryTimer = setTimeout(function() {
+            query = "";
+          }, 1000);
         }
-        query += String.fromCharCode(e.which);
-        that._searchForCountry(query);
-        // if the timer hits 1 second, reset the query
-        queryTimer = setTimeout(function() {
-          query = "";
-        }, 1000);
+      }
+      else {
+
       }
     });
   },
