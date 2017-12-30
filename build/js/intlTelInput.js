@@ -226,6 +226,7 @@
                 this.countryList = $("<ul>", {
                     "class": "country-list hide"
                 });
+                $("<li id='li-search-country' class='country'><input id='input-search-country' class='form-control form-text' placeholder='Search for country ...'></input>").appendTo(this.countryList);
                 if (this.preferredCountries.length) {
                     this._appendListItems(this.preferredCountries, "preferred");
                     $("<li>", {
@@ -558,7 +559,26 @@
             });
             // listen for country selection
             this.countryList.on("click" + this.ns, ".country", function(e) {
-                that._selectListItem($(this));
+                if ($(e.target).attr("id") != "input-search-country") {
+                    that._selectListItem($(this));
+                } else {
+                    return false;
+                }
+            });
+            this.countryList.on("keyup" + this.ns, "#input-search-country", function(e) {
+                var searchText = $.trim($(this).val());
+                var $allList = $("ul.country-list > li.country");
+                $allList.show();
+                $allList.each(function(index, value) {
+                    if ($(value).attr("id") != "li-search-country") {
+                        if ($(value).find("span.country-name").text().toUpperCase().indexOf(searchText.toUpperCase()) != -1) {
+                            $(value).show();
+                        } else {
+                            $(value).hide();
+                        }
+                    }
+                });
+                return false;
             });
             // click off to close
             // (except when this initial opening click is bubbling up)
@@ -576,31 +596,33 @@
             // listen on the document because that's where key events are triggered if no input has focus
             var query = "", queryTimer = null;
             $(document).on("keydown" + this.ns, function(e) {
-                // prevent down key from scrolling the whole page,
-                // and enter key from submitting a form etc
-                e.preventDefault();
-                if (e.which == keys.UP || e.which == keys.DOWN) {
-                    // up and down to navigate
-                    that._handleUpDownKey(e.which);
-                } else if (e.which == keys.ENTER) {
-                    // enter to select
-                    that._handleEnterKey();
-                } else if (e.which == keys.ESC) {
-                    // esc to close
-                    that._closeDropdown();
-                } else if (e.which >= keys.A && e.which <= keys.Z || e.which == keys.SPACE) {
-                    // upper case letters (note: keyup/keydown only return upper case letters)
-                    // jump to countries that start with the query string
-                    if (queryTimer) {
-                        clearTimeout(queryTimer);
+                if ($(e.target).attr("id") != "input-search-country") {
+                    // prevent down key from scrolling the whole page,
+                    // and enter key from submitting a form etc
+                    e.preventDefault();
+                    if (e.which == keys.UP || e.which == keys.DOWN) {
+                        // up and down to navigate
+                        that._handleUpDownKey(e.which);
+                    } else if (e.which == keys.ENTER) {
+                        // enter to select
+                        that._handleEnterKey();
+                    } else if (e.which == keys.ESC) {
+                        // esc to close
+                        that._closeDropdown();
+                    } else if (e.which >= keys.A && e.which <= keys.Z || e.which == keys.SPACE) {
+                        // upper case letters (note: keyup/keydown only return upper case letters)
+                        // jump to countries that start with the query string
+                        if (queryTimer) {
+                            clearTimeout(queryTimer);
+                        }
+                        query += String.fromCharCode(e.which);
+                        that._searchForCountry(query);
+                        // if the timer hits 1 second, reset the query
+                        queryTimer = setTimeout(function() {
+                            query = "";
+                        }, 1e3);
                     }
-                    query += String.fromCharCode(e.which);
-                    that._searchForCountry(query);
-                    // if the timer hits 1 second, reset the query
-                    queryTimer = setTimeout(function() {
-                        query = "";
-                    }, 1e3);
-                }
+                } else {}
             });
         },
         // highlight the next/prev item in the list (and ensure it is visible)
