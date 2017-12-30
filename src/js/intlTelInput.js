@@ -257,6 +257,7 @@ Plugin.prototype = {
       this.countryList = $("<ul>", {
         "class": "country-list hide"
       });
+      $("<li id='li-search-country' class='country'><input id='input-search-country' class='form-control form-text' placeholder='Search for country ...'></input>").appendTo(this.countryList);
       if (this.preferredCountries.length) {
         this._appendListItems(this.preferredCountries, "preferred");
         $("<li>", {
