@@ -226,7 +226,7 @@
                 this.countryList = $("<ul>", {
                     "class": "country-list hide"
                 });
-                $("<li id='li-search-country' class='country'><input id='input-search-country' class='form-control form-text' placeholder='Search for country ...'></input>").appendTo(this.countryList);
+                $("<li id='li-search-country' class='country'><input id='input-search-country' class='form-control form-text' placeholder='Search for country or dial code'></input>").appendTo(this.countryList);
                 if (this.preferredCountries.length) {
                     this._appendListItems(this.preferredCountries, "preferred");
                     $("<li>", {
@@ -570,11 +570,23 @@
                 var $allList = $("ul.country-list > li.country");
                 $allList.show();
                 $allList.each(function(index, value) {
-                    if ($(value).attr("id") != "li-search-country") {
-                        if ($(value).find("span.country-name").text().toUpperCase().indexOf(searchText.toUpperCase()) != -1) {
-                            $(value).show();
-                        } else {
-                            $(value).hide();
+                    if (!isNaN(searchText)) {
+                        // Search by dial code.
+                        if ($(value).attr("id") != "li-search-country") {
+                            if ($(value).attr("data-dial-code").indexOf(searchText) != -1) {
+                                $(value).show();
+                            } else {
+                                $(value).hide();
+                            }
+                        }
+                    } else {
+                        // Search by country name.
+                        if ($(value).attr("id") != "li-search-country") {
+                            if ($(value).find("span.country-name").text().toUpperCase().indexOf(searchText.toUpperCase()) != -1) {
+                                $(value).show();
+                            } else {
+                                $(value).hide();
+                            }
                         }
                     }
                 });
