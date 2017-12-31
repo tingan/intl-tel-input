@@ -2,7 +2,7 @@
 A jQuery plugin for entering and validating international telephone numbers with searching phone country code by country name function.
 
 <img src="https://github.com/tingan/intl-tel-input/blob/master/screenshot.png" width="424px" height="246px">
-
+<img src="https://github.com/tingan/intl-tel-input/blob/master/screenshot2.png" width="424px" height="246px">
 The work is a by-product from MeetingPackage.com company project [MeetingPackage.com](https://meetingpackage.com).
 
 ## Getting Started
