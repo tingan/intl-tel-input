@@ -681,37 +681,42 @@ Plugin.prototype = {
       var searchText = $.trim($(this).val());
       var $allList = $('ul.country-list > li.country');
       var $allPreferred = $('ul.country-list > li.country.preferred');
-      $allList.show();
-      $allPreferred.hide();
-      $allList.each(function(index, value) {
-        if (!isNaN(searchText)) {
-          // Search by dial code.
-          if ($(value).attr('id') != 'li-search-country') {
-            if ($(value).attr('data-dial-code').indexOf(searchText) != -1) {
-              if (!$(value).hasClass('preferred')) {
-                $(value).show();
+      if (searchText != '') {
+        $allList.show();
+        $allPreferred.hide();
+        $allList.each(function(index, value) {
+          if (!isNaN(searchText)) {
+            // Search by dial code.
+            if ($(value).attr('id') != 'li-search-country') {
+              if ($(value).attr('data-dial-code').indexOf(searchText) != -1) {
+                if (!$(value).hasClass('preferred')) {
+                  $(value).show();
+                }
+              }
+              else {
+                $(value).hide();
               }
             }
-            else {
-              $(value).hide();
-            }
           }
-        }
-        else {
-          // Search by country name.
-          if ($(value).attr('id') != 'li-search-country') {
-            if ($(value).find('span.country-name').text().toUpperCase().indexOf(searchText.toUpperCase()) != -1) {
-              if (!$(value).hasClass('preferred')) {
-                $(value).show();
+          else {
+            // Search by country name.
+            if ($(value).attr('id') != 'li-search-country') {
+              if ($(value).find('span.country-name').text().toUpperCase().indexOf(searchText.toUpperCase()) != -1) {
+                if (!$(value).hasClass('preferred')) {
+                  $(value).show();
+                }
+              }
+              else {
+                $(value).hide();
               }
             }
-            else {
-              $(value).hide();
-            }
-          }
 
-        }
-      });
+          }
+        });
+      }
+      else {
+        $allList.show();
+      }
       return false;
     });
 
