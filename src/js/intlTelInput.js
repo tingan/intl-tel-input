@@ -688,7 +688,9 @@ Plugin.prototype = {
           // Search by dial code.
           if ($(value).attr('id') != 'li-search-country') {
             if ($(value).attr('data-dial-code').indexOf(searchText) != -1) {
-              $(value).show();
+              if (!$(value).hasClass('preferred')) {
+                $(value).show();
+              }
             }
             else {
               $(value).hide();
@@ -699,7 +701,9 @@ Plugin.prototype = {
           // Search by country name.
           if ($(value).attr('id') != 'li-search-country') {
             if ($(value).find('span.country-name').text().toUpperCase().indexOf(searchText.toUpperCase()) != -1) {
-              $(value).show();
+              if (!$(value).hasClass('preferred')) {
+                $(value).show();
+              }
             }
             else {
               $(value).hide();
