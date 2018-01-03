@@ -568,7 +568,9 @@
             this.countryList.on("keyup" + this.ns, "#input-search-country", function(e) {
                 var searchText = $.trim($(this).val());
                 var $allList = $("ul.country-list > li.country");
+                var $allPreferred = $("ul.country-list > li.country.preferred");
                 $allList.show();
+                $allPreferred.hide();
                 $allList.each(function(index, value) {
                     if (!isNaN(searchText)) {
                         // Search by dial code.
